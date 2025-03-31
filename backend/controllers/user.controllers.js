@@ -1,7 +1,10 @@
+// import User from "../models/user.model.js";
 import User from "../models/user.model.js";
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import radisClient from "../services/radis.service.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -21,13 +24,9 @@ export const registerUser = async (req, res) => {
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
-    const token = jwt.sign(
-      { userId: newUser._id, email: newUser.email },
-      JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
+    const token = jwt.sign({ email: newUser.email }, JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -54,13 +53,9 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
     return res.status(200).json({
       message: "Login successful",
@@ -73,17 +68,43 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
 export const getProfile = async (req, res) => {
+  const userEmail = req.user.email;
+
   try {
-      const user = await User.findById(req.user.userId).select("-password"); // Exclude password
+    const user = await User.findOne({ email: userEmail }).select("-password"); // Exclude password
+    console.log("user:", user);
 
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      return res.status(200).json({ message: "Profile fetched successfully", user });
+    return res
+      .status(200)
+      .json({ message: "Profile fetched successfully", user });
   } catch (error) {
-      return res.status(500).json({ message: "Internal Server Error" });
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    const token =
+      req.cookies?.token || req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(400).json({ message: "No token provided" });
+    }
+
+    await radisClient.set(token, "logout", "EX", 86400);
+
+    // // Clear cookie (optional, if using cookie-based auth) right now we are not doing the cookie based auth so ignore it
+    // res.clearCookie("token");
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
