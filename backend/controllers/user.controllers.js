@@ -1,10 +1,8 @@
-// import User from "../models/user.model.js";
 import User from "../models/user.model.js";
-
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import radisClient from "../services/radis.service.js";
+import redisClient from "../services/redis.service.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -97,14 +95,14 @@ export const logoutUser = async (req, res) => {
       return res.status(400).json({ message: "No token provided" });
     }
 
-    await radisClient.set(token, "logout", "EX", 86400);
+    await redisClient.set(token, "logout", "EX", 86400);
 
     // // Clear cookie (optional, if using cookie-based auth) right now we are not doing the cookie based auth so ignore it
     // res.clearCookie("token");
 
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import radisClient from "../services/radis.service.js";
+import redisClient from "../services/redis.service.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
         .json({ message: "Unauthorized: No token provided" });
     }
 
-    const isBlacklisted = await radisClient.get(token);
+    const isBlacklisted = await redisClient.get(token);
     if (isBlacklisted) {
       return res
         .status(401)
