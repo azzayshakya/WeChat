@@ -5,7 +5,7 @@ import validateRegistration from "../middleware/validateUser.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 const router = Router();
 
-router.post("/SignUp", validateRegistration, registerUser);
+router.post("/create-account", validateRegistration, registerUser);
 router.post("/login", loginUser);
 router.get("/profile", authMiddleware, getProfile);
 router.get("/logout", authMiddleware, logoutUser);
