@@ -3,6 +3,7 @@ import morgan from "morgan";
 import connectDB from "./db/db.js";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/project.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use("/auth", authRoutes);
+app.use("/project", projectRoutes);
 app.get("/", (req, res) => {
   res.send(` WeChat backend is running`);
 });
