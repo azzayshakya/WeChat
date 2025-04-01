@@ -115,7 +115,7 @@ const Home = () => {
                 </div>
                 <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-xs md:max-w-md">
                   <p className="text-sm font-bold">Jake</p>
-                  <p>I've been playing with it for a couple days now. The performance improvements are really noticeable!</p>
+                  <p>I have been playing with it for a couple days now. The performance improvements are really noticeable!</p>
                   <p className="text-xs text-muted-foreground mt-1">10:35 AM</p>
                 </div>
               </div>
@@ -170,7 +170,7 @@ const Home = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">AI-Powered Assistance</h3>
-              <p className="text-muted-foreground">Get instant answers, suggestions, and help from our advanced AI that learns from your group's interactions.</p>
+              <p className="text-muted-foreground">Get instant answers, suggestions, and help from our advanced AI that learns from your group interactions.</p>
             </div>
             
             {/* Feature 3 */}
