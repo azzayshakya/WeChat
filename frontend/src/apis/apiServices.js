@@ -30,7 +30,7 @@ export const CreateAccountApi = async (userData) => {
 
 export const fetchProjectsApi = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/projects/all`, authHeaders());
+    const response = await axios.get(`${API_BASE_URL}/project/user-projects`, authHeaders());
     return response.data.projects;
   } catch (error) {
     throw error.response?.data || error.message;
