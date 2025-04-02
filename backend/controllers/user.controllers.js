@@ -107,3 +107,20 @@ export const logoutUser = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const getAllUsersExceptCurrent = async (req, res) => {
+  try {
+    const authUser = await User.findOne({ email: req.user.email });
+
+    if (!authUser) {
+      return res.status(404).json({ message: "Authenticated user not found" });
+    }
+
+    const users = await User.find({ _id: { $ne: authUser._id } }).select("-password");
+
+    return res.status(200).json({ message: "Users fetched successfully", users });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
