@@ -108,3 +108,30 @@ export const addUserToProject = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const getProjectById = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+      return res.status(400).json({ message: "Invalid Project ID format" });
+    }
+
+    const project = await Project.findById(projectId).populate("users", "-password");
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    return res.status(200).json({ message: "Project fetched successfully", project });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
