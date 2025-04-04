@@ -1,6 +1,10 @@
 
-
+import { Navigate, useNavigate } from "react-router-dom";
 const Home = () => {
+  const navigate =useNavigate();
+  const NavigateToProjectsPage=()=>{
+    navigate("/projects")
+  }
   return (
     <div className="min-h-screen bg-background font-nunito">
       
@@ -41,7 +45,7 @@ const Home = () => {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Chat Smarter with AI-Powered Groups</h2>
               <p className="text-lg md:text-xl mb-6 text-muted">Connect with friends, colleagues, and AI assistants in one seamless platform.</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="px-6 py-3 rounded-lg bg-primary text-white hover:bg-opacity-90 transition-colors">
+                <button className="px-6 py-3 rounded-lg bg-primary text-white hover:bg-opacity-90 transition-colors" onClick={NavigateToProjectsPage}>
                   Get Started
                 </button>
                 <button className="px-6 py-3 rounded-lg bg-transparent border border-white text-white hover:bg-white hover:bg-opacity-10 transition-colors">
@@ -78,6 +82,7 @@ const Home = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                   </svg>
+                  
                 </button>
               </div>
             </div>
@@ -192,7 +197,7 @@ const Home = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Transform Your Communication?</h2>
           <p className="text-lg mb-6 max-w-2xl mx-auto text-muted-foreground">Join thousands of users who are already experiencing the future of group chat with AI-powered assistance.</p>
-          <button className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors">
+          <button className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors" onClick={Navigate}>
             Get Started Free
           </button>
         </div>

@@ -15,7 +15,8 @@
     --navy-blue: rgb(3, 31, 48);
     --primary: rgb(141, 95, 255);
     --primary-foreground: hsl(210 40% 98%);
-    --secondary: rgb(32, 178, 40);
+    --light-green: rgb(32, 178, 40);
+    --secondary: rgb(3, 31, 48);
     --secondary-foreground: hsl(210 48% 98%);
     --muted: rgb(244, 242, 247);
     --muted-foreground: rgb(123, 122, 128);
@@ -41,7 +42,8 @@
     --navy-blue: rgb(3, 31, 48);
     --primary: rgb(141, 95, 255);
     --primary-foreground: hsl(210 40% 98%);
-    --secondary: rgb(32, 178, 40);
+    --secondary: rgb(3, 31, 48);
+    --light-green: rgb(32, 178, 40);
     --secondary-foreground: hsl(210 40% 98%);
     --muted: rgb(244, 242, 247);
     --muted-foreground: rgb(123, 122, 128);

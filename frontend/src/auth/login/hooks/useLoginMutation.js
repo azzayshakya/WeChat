@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 // import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { loginApi } from "@/apis/apiServices";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -24,10 +24,7 @@ export const useLoginMutation = () => {
       localStorage.setItem("wechatUser", JSON.stringify(user));
       navigate("/home");
     },
-    onError: (error) => {
-      const errorMessage = error?.response?.data?.message || "Login failed.";
-      toast.error(`Error: ${errorMessage}`);
-    },
+  
   });
 
   return {
