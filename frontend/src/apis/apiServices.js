@@ -5,7 +5,6 @@ const API_BASE_URL = "http://localhost:3000";
 // Function to get the auth token
 const getAuthToken = () => localStorage.getItem("wechatUserToken");
 
-// Add token to headers
 const authHeaders = () => ({
   headers: { Authorization: `Bearer ${getAuthToken()}` },
 });

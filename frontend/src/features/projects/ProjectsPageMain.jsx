@@ -4,6 +4,7 @@ import "@/App.css";
 import ProjectsPageHeader from "./components/ProjectsPageHeader";
 import CreateProjectModel from "./components/CreateProjectModel";
 import useFetchProjects from "./hooks/useFetchProjects"; 
+import Navbar from "@/components/Navbar";
 
 const ProjectsPageMain = () => {
   const [projects, setProjects] = useState([]);
@@ -22,75 +23,7 @@ const ProjectsPageMain = () => {
   return (
     <div className="min-h-screen bg-background font-nunito">
       {/* Navigation */}
-      <nav className="bg-navy-blue sticky top-0 z-10 shadow-md">
-        <div className="container mx-auto flex items-center justify-between px-4 py-3">
-          <div className="flex items-center space-x-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="h-8 w-8 text-primary"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            </svg>
-            <h1 className="text-xl font-bold text-white md:text-2xl">
-              ChatHub
-            </h1>
-          </div>
-
-          <div className="hidden items-center space-x-6 md:flex">
-            <a
-              href="#"
-              className="text-white transition-colors hover:text-primary"
-            >
-              Home
-            </a>
-            <a href="#" className="text-primary transition-colors">
-              Projects
-            </a>
-            <a
-              href="#"
-              className="text-white transition-colors hover:text-primary"
-            >
-              Features
-            </a>
-            <a
-              href="#"
-              className="text-white transition-colors hover:text-primary"
-            >
-              About
-            </a>
-          </div>
-
-          <div className="flex items-center space-x-3 ">
-            <button className="hidden rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-opacity-90 md:block">
-              Sign Up
-            </button>
-            <button className="text-white md:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar/>
 
       <ProjectsPageHeader />
 
