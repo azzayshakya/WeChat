@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000";
 
-// Function to get the auth token
+
 const getAuthToken = () => localStorage.getItem("wechatUserToken");
 
 const authHeaders = () => ({
@@ -68,6 +68,14 @@ export const getAllUsersApi = async () => {
 };
 
 export const addUserToProjectAPI = async ({ projectId, newUserId }) => {
-  const response = await axios.post("/api/add-user", { projectId, newUserId });
-  return response.data;
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/project/add-user`,
+      { projectId, newUserId },
+      authHeaders(),
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
