@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useFetchAllUsers } from "../constants/useFetchAllUsers";
+import PropTypes from "prop-types";
 
-const UserList = () => {
+const UserList = ({ onClose }) => {
   const { users, isLoading } = useFetchAllUsers();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -15,12 +16,12 @@ const UserList = () => {
       {/* Header */}
       <div className="flex items-center justify-between rounded-tr-lg bg-secondary px-5 py-4 text-white">
         <h2 className="text-lg font-semibold">All Users</h2>
-        <button className="transition hover:text-primary">
+        <button onClick={onClose} className="transition hover:text-primary">
           <X className="h-5 w-5" />
         </button>
       </div>
 
-      {/* Search input */}
+      {/* Search */}
       <div className="border-b border-border bg-background px-5 py-2">
         <input
           type="text"
@@ -31,7 +32,7 @@ const UserList = () => {
         />
       </div>
 
-      {/* User List */}
+      {/* Users */}
       <div className="flex-1 space-y-3 overflow-auto bg-background px-5 py-3">
         {isLoading ? (
           <div className="flex items-center justify-center">
@@ -61,7 +62,7 @@ const UserList = () => {
         )}
       </div>
 
-      {/* Add User Button */}
+      {/* Add User */}
       <div className="rounded-br-lg border-t border-border bg-background p-5">
         <button className="hover:bg-primary/90 w-full rounded-lg bg-primary py-3 font-medium text-white transition-all duration-200">
           Add User
@@ -69,6 +70,9 @@ const UserList = () => {
       </div>
     </div>
   );
+};
+UserList.propTypes = {
+  onClose: PropTypes.func.isRequired,
 };
 
 export default UserList;

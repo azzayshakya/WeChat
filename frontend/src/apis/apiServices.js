@@ -20,7 +20,10 @@ export const loginApi = async (userData) => {
 
 export const CreateAccountApi = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/create-account`, userData);
+    const response = await axios.post(
+      `${API_BASE_URL}/auth/create-account`,
+      userData,
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -29,7 +32,10 @@ export const CreateAccountApi = async (userData) => {
 
 export const fetchProjectsApi = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/project/user-projects`, authHeaders());
+    const response = await axios.get(
+      `${API_BASE_URL}/project/user-projects`,
+      authHeaders(),
+    );
     return response.data.projects;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -38,20 +44,30 @@ export const fetchProjectsApi = async () => {
 
 export const createProjectApi = async (projectName) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/project/create`, { name: projectName }, authHeaders());
+    const response = await axios.post(
+      `${API_BASE_URL}/project/create`,
+      { name: projectName },
+      authHeaders(),
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
   }
 };
 
-
 export const getAllUsersApi = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/auth/all-users-except-me`, authHeaders());
-    console.log(response.data.users)
+    const response = await axios.get(
+      `${API_BASE_URL}/auth/all-users-except-me`,
+      authHeaders(),
+    );
     return response.data.users;
   } catch (error) {
     throw error.response?.data || error.message;
   }
+};
+
+export const addUserToProjectAPI = async ({ projectId, newUserId }) => {
+  const response = await axios.post("/api/add-user", { projectId, newUserId });
+  return response.data;
 };

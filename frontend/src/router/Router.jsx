@@ -33,7 +33,7 @@ const router = createBrowserRouter(
       element: <UserProjectsScreen />,
     },
     {
-      path: "/projects/:id",
+      path: "/projects/:projectId",
       element: <ChatPageMain />,
     }
     // {
