@@ -21,9 +21,8 @@ export const registerUser = async (req, res) => {
 
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
-    console.log("new user , ", newUser)
 
-    const token = jwt.sign({ email: newUser.email }, JWT_SECRET, {
+    const token = jwt.sign({ id: newUser._id, email: newUser.email }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -52,7 +51,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, email: user.email  }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -72,7 +71,6 @@ export const getProfile = async (req, res) => {
 
   try {
     const user = await User.findOne({ email: userEmail }).select("-password"); // Exclude password
-    console.log("user:", user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -116,9 +114,13 @@ export const getAllUsersExceptCurrent = async (req, res) => {
       return res.status(404).json({ message: "Authenticated user not found" });
     }
 
-    const users = await User.find({ _id: { $ne: authUser._id } }).select("-password");
+    const users = await User.find({ _id: { $ne: authUser._id } }).select(
+      "-password"
+    );
 
-    return res.status(200).json({ message: "Users fetched successfully", users });
+    return res
+      .status(200)
+      .json({ message: "Users fetched successfully", users });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });

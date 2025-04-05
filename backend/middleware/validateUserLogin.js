@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 
-const validateRegistration = [
+const validateLogin = [
   body("email").isEmail().withMessage("Invalid Email Format"),
   body("password")
     .isLength({ min: 3, max: 3 })
@@ -8,9 +8,12 @@ const validateRegistration = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({
+        message: errors.array()[0].msg,
+      });
     }
     next();
   },
 ];
-export default validateRegistration;
+
+export default validateLogin;
