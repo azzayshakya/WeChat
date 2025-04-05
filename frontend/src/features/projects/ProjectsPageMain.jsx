@@ -52,7 +52,7 @@ const ProjectsPageMain = () => {
               {projects.map((project) => (
                 <div
                   key={project._id}
-                  onClick={() => navigate("/projects", { state: { project } })}
+                  onClick={() => navigate(`/projects/${project._id}`)}
                   className="flex h-60 animate-fade-in cursor-pointer flex-col rounded-lg border border-border bg-card p-6 transition-all hover:border-primary hover:shadow-md"
                 >
                   <div className="mb-4">

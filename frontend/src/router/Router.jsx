@@ -2,7 +2,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "@/screens/Home";
 import Login from "@/screens/Login";
 import CreateAccount from "@/screens/CreateAccount";
-import Projects from "@/screens/Project";
+import UserProjectsScreen from "@/screens/UserProjectsScreen";
+import ChatPageMain from "@/features/chat/ChatPageMain";
 // import Practicing from "@/dummy-practice/Practicing";
 // import PracticeProjectPage from "@/dummy-practice/PracticeProjectPage";
 // import { ErrorPage } from "../pages/common/ErrorPage";
@@ -29,8 +30,12 @@ const router = createBrowserRouter(
     },
     {
       path: "/projects",
-      element: <Projects />,
+      element: <UserProjectsScreen />,
     },
+    {
+      path: "/projects/:id",
+      element: <ChatPageMain />,
+    }
     // {
     //   path: "/practicing",
     //   element: <Practicing />,
