@@ -44,3 +44,14 @@ export const createProjectApi = async (projectName) => {
     throw error.response?.data || error.message;
   }
 };
+
+
+export const getAllUsersApi = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/auth/all-users-except-me`, authHeaders());
+    console.log(response.data.users)
+    return response.data.users;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

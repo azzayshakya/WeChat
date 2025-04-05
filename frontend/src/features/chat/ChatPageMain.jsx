@@ -1,19 +1,9 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import UserList from './components/UsersList'
 
-const ChatPageMain = () => {
-  const { id } = useParams();
-
-  useEffect(() => {
-   
-    console.log("Project ID:", id);
-  }, [id]);
-
+export default function ChatPageMain() {
   return (
     <div>
-      <h1 className="text-2xl font-bold">Project Page for ID: {id}</h1>
+      <UserList/>
     </div>
-  );
-};
-
-export default ChatPageMain;
+  )
+}
