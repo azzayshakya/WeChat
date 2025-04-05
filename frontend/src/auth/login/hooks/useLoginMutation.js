@@ -24,6 +24,13 @@ export const useLoginMutation = () => {
       localStorage.setItem("wechatUser", JSON.stringify(user));
       navigate("/home");
     },
+    onError:(error)=>{
+      
+      toast.error(error.message)
+
+
+    }
+
   
   });
 

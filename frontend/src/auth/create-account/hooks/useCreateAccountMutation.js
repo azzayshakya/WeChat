@@ -23,10 +23,7 @@ export const useCreateAccountMutation = () => {
       navigate("/home");
     },
     onError: (error) => {
-      console.log(error?.response?.data?.errors?.[0]?.msg);
-      const errorMessage =
-        error?.response?.data?.errors?.[0]?.msg || " Failed.";
-      toast.error(`Error: ${errorMessage}`);
+      toast.error(error.message || "failed to create account")
     },
   });
 
