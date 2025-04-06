@@ -30,22 +30,6 @@ const UserList = ({ onClose, projectId }) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center p-6">
-        <div className="loader"></div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="flex h-full w-full items-center justify-center p-6 text-red-500">
-        Failed to fetch users.
-      </div>
-    );
-  }
-
   return (
     <div className="flex h-screen w-full flex-col rounded-r-lg border border-border bg-white text-black shadow-lg md:max-w-md">
       <div className="flex items-center justify-between rounded-tr-lg bg-secondary px-5 py-4 text-white">

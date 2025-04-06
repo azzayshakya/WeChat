@@ -48,7 +48,6 @@ export const fetchProjectsApi = async () => {
       `${API_BASE_URL}/project/user-projects`,
       authHeaders(),
     );
-    console.log(response.data)
     return response.data.projects;
   } catch (error) {
     throw error.response?.data || error.message;

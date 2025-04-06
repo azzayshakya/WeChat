@@ -49,8 +49,42 @@ export default function ChatPageMain() {
             {/* Chat Messages */}
             <div className="flex-1 space-y-3 overflow-auto bg-background p-4">
               {/* Dummy messages */}
+              <div className="mb-4 flex">
+                <div className="bg-secondary rounded-full w-8 h-8 flex items-center justify-center mr-2 flex-shrink-0">
+                  <span className="text-white font-bold text-sm">S</span>
+                </div>
+                <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-xs md:max-w-md">
+                  <p className="text-sm font-bold">Sarah</p>
+                  <p>Hey everyone! Has anyone tried the new React 19 features yet?</p>
+                  <p className="text-xs text-muted-foreground mt-1">10:32 AM</p>
+                </div>
+              </div>
+              
+              {/* AI Message */}
+              <div className="mb-4 flex">
+                <div className="bg-primary rounded-full w-8 h-8 flex items-center justify-center mr-2 flex-shrink-0">
+                  <span className="text-white font-bold text-sm">AI</span>
+                </div>
+                <div className="bg-info rounded-lg rounded-tl-none p-3 max-w-xs md:max-w-md">
+                  <p className="text-sm font-bold">ChatBot</p>
+                  <p>React 19 introduced several exciting features including improved server components, automatic memoization, and a new concurrent rendering mode.</p>
+                  <p className="text-xs text-muted-foreground mt-1">10:33 AM</p>
+                </div>
+              </div>
+              
+              {/* Another User Message */}
+              <div className="mb-4 flex">
+                <div className="bg-warning-foreground rounded-full w-8 h-8 flex items-center justify-center mr-2 flex-shrink-0">
+                  <span className="text-white font-bold text-sm">J</span>
+                </div>
+                <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-xs md:max-w-md">
+                  <p className="text-sm font-bold">Jake</p>
+                  <p>I have been playing with it for a couple days now. The performance improvements are really noticeable!</p>
+                  <p className="text-xs text-muted-foreground mt-1">10:35 AM</p>
+                </div>
+              </div>
             </div>
-
+            
             {/* Input Box */}
             <div className="border-t border-border p-4">
               <div className="flex items-center gap-2">
