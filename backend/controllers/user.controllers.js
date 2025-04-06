@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import redisClient from "../services/redis.service.js";
+import Project from "../models/project.model.js";
+
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -41,7 +43,6 @@ export const loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    console.log(user);
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
@@ -109,20 +110,34 @@ export const logoutUser = async (req, res) => {
 export const getAllUsersExceptCurrent = async (req, res) => {
   try {
     const authUser = await User.findOne({ email: req.user.email });
+    const { projectId } = req.body;
 
     if (!authUser) {
       return res.status(404).json({ message: "Authenticated user not found" });
     }
 
-    const users = await User.find({ _id: { $ne: authUser._id } }).select(
-      "-password"
-    );
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
 
-    return res
-      .status(200)
-      .json({ message: "Users fetched successfully", users });
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    const excludedUserIds = [authUser._id, ...project.users];
+
+    const filteredUsers = await User.find({
+      _id: { $nin: excludedUserIds },
+    }).select("-password");
+
+    return res.status(200).json({
+      message: "Available users fetched successfully",
+      users: filteredUsers,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching  users:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+

@@ -4,7 +4,6 @@ dotenv.config();
 import app from "./app.js";
 
 const port = process.env.PORT ;
-console.log(port)
 
 const server = http.createServer(app);
 

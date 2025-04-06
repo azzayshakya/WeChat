@@ -55,11 +55,12 @@ export const createProjectApi = async (projectName) => {
   }
 };
 
-export const getAllUsersApi = async () => {
+export const getAllUsersApi = async (projectId) => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/auth/all-users-except-me`,
-      authHeaders(),
+    const response = await axios.post(
+      `${API_BASE_URL}/auth/all-users-except-current`,
+      { projectId },
+      authHeaders()
     );
     return response.data.users;
   } catch (error) {

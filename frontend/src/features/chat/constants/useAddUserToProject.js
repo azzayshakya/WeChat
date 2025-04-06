@@ -14,7 +14,6 @@ export const useAddUserToProject = () => {
     mutationFn: addUserToProjectAPI,
     onSuccess: (data) => {
       toast.success("User added to the project!");
-      console.log("Success:", data);
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message || "Error adding user");

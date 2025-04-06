@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { X } from "lucide-react";
 const UserList = ({ onClose, projectId }) => {
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const { users, isLoading, isError } = useFetchAllUsers();
+  const { users, isLoading, isError } = useFetchAllUsers(projectId);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredUsers = users.filter((user) =>
@@ -17,8 +17,6 @@ const UserList = ({ onClose, projectId }) => {
   const handleUserClick = (userId) => {
     setSelectedUserId(userId);
   };
-  console.log("id user", selectedUserId);
-  console.log("project id", projectId);
 
   const handleAddUser = async () => {
     if (!selectedUserId) return;
