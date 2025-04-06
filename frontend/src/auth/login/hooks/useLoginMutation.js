@@ -3,8 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/apis/apiServices";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UserContext } from "@/context/user.context";
+import { useContext } from "react";
 
 export const useLoginMutation = () => {
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const {
@@ -22,6 +25,7 @@ export const useLoginMutation = () => {
       localStorage.setItem("wechatUserToken", token);
 
       localStorage.setItem("wechatUser", JSON.stringify(user));
+      setUser(data.user)
       navigate("/home");
     },
     onError:(error)=>{

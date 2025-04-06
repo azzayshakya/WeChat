@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import redisClient from "../services/redis.service.js";
 import Project from "../models/project.model.js";
 
-
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -24,9 +23,13 @@ export const registerUser = async (req, res) => {
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id, email: newUser.email }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -52,7 +55,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email  }, JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -100,10 +103,12 @@ export const logoutUser = async (req, res) => {
     // // Clear cookie (optional, if using cookie-based auth) right now we are not doing the cookie based auth so ignore it
     // res.clearCookie("token");
 
-    return res.status(200).json({ message: "Logout successful" });
+    return res.status(200).json({ status: true, message: "Logout successful" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal Server Error" });
   }
 };
 
@@ -140,4 +145,3 @@ export const getAllUsersExceptCurrent = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-

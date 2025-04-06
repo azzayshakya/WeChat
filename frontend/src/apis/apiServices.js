@@ -30,12 +30,25 @@ export const CreateAccountApi = async (userData) => {
   }
 };
 
+export const logoutApi = async () => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/auth/logout`,
+      authHeaders()
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
 export const fetchProjectsApi = async () => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/project/user-projects`,
       authHeaders(),
     );
+    console.log(response.data)
     return response.data.projects;
   } catch (error) {
     throw error.response?.data || error.message;

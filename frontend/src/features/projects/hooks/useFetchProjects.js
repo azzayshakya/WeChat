@@ -13,12 +13,9 @@ export default function useFetchProjects() {
     mutationFn: fetchProjectsApi,
     onSuccess: (data) => {
       toast.success("Projects fetched successfully!");
-  
-
     },
     onError: (error) => {
-      console.error(error);
-      toast.error("Something went wrong");
+      toast.error(error.message);
     },
   });
   return {

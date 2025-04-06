@@ -9,21 +9,26 @@ const authMiddleware = async (req, res, next) => {
     if (!token) {
       return res
         .status(401)
-        .json({ message: "Unauthorized: No token provided" });
+        .json({ success: false, message: "Unauthorized: No token provided" });
     }
 
     const isBlacklisted = await redisClient.get(token);
     if (isBlacklisted) {
       return res
         .status(401)
-        .json({ message: "Unauthorized: Token is blacklisted" });
+        .json({
+          success: false,
+          message: "Unauthorized: Token is blacklisted",
+        });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Unauhorized: Invalid token" });
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauhorized: Invalid token" });
   }
 };
 
