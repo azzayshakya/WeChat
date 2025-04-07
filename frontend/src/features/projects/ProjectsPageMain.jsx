@@ -5,6 +5,7 @@ import ProjectsPageHeader from "./components/ProjectsPageHeader";
 import CreateProjectModel from "./components/CreateProjectModel";
 import useFetchProjects from "./hooks/useFetchProjects"; 
 import Navbar from "@/components/Navbar";
+import { initializeSocket } from "@/context/socket";
 
 const ProjectsPageMain = () => {
   const [projects, setProjects] = useState([]);
@@ -19,6 +20,13 @@ const ProjectsPageMain = () => {
       },
     });
   }, [fetchProjects]);
+  useEffect(() => {
+    const socket = initializeSocket();
+  
+    return () => {
+      if (socket) socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background font-nunito">
