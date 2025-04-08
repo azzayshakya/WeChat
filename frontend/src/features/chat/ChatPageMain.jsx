@@ -13,11 +13,13 @@ export default function ChatPageMain() {
   const user = useContext(UserContext);
   const { projectId } = useParams();
   const [showUserList, setShowUserList] = useState(false);
+  const [showAIPanel, setShowAIPanel] = useState(true);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const handleAddUserClick = () => setShowUserList(true);
   const handleCloseUserList = () => setShowUserList(false);
+  const toggleAIPanel = () => setShowAIPanel((prev) => !prev);
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -59,7 +61,10 @@ export default function ChatPageMain() {
         )}
 
         <div className="flex w-full border">
-          <div className="flex w-full flex-col border-r border-border bg-white shadow-md md:w-1/3">
+          {/* Chat message section */}
+          <div
+            className={`flex flex-col border-r border-border bg-white shadow-md transition-all duration-300 ease-in-out ${showAIPanel ? "w-1/3 md:w-1/3" : "w-full"}`}
+          >
             <div className="flex items-center justify-between bg-secondary p-4 text-white">
               <div>
                 <h2 className="text-lg font-semibold">Project X</h2>
@@ -141,9 +146,50 @@ export default function ChatPageMain() {
             </div>
           </div>
 
-          <div className="w-full overflow-auto bg-background p-6 md:w-2/3">
-            <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-border text-lg text-muted-foreground">
-              AI Response Area (Design it later)
+          {/* AI Panel  */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              showAIPanel ? "w-2/3 animate-slide-in-right" : "w-12"
+            }`}
+          >
+            {/* Toggle button container */}
+            <div className="flex justify-end bg-secondary p-2">
+              <button
+                onClick={toggleAIPanel}
+                className="hover:bg-primary/90 rounded-lg bg-primary p-2 text-white transition"
+                title={showAIPanel ? "Collapse AI Panel" : "Expand AI Panel"}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="h-5 w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d={
+                      showAIPanel
+                        ? "M11 19l-7-7 7-7m8 14l-7-7 7-7" // Left arrows when expanded (to collapse)
+                        : "M13 5l7 7-7 7M5 5l7 7-7 7" // Right arrows when collapsed (to expand)
+                    }
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              className={`h-full transition-opacity duration-300 ${showAIPanel ? "opacity-100" : "opacity-0"}`}
+            >
+              {showAIPanel && (
+                <div className="h-full w-full overflow-auto bg-background p-6">
+                  <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-border text-lg text-muted-foreground">
+                    AI Response Area
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
