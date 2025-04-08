@@ -3,19 +3,29 @@ import Navbar from "@/components/Navbar";
 import UserList from "./components/UsersList";
 import { useParams } from "react-router-dom";
 import { UserContext } from "@/context/user.context";
+
 import {
   initializeSocket,
   sendMessage,
   receiveMessage,
 } from "@/context/socket";
+import { useProjectDetails } from "./constants/useGetProjectDetails";
 
 export default function ChatPageMain() {
   const user = useContext(UserContext);
   const { projectId } = useParams();
   const [showUserList, setShowUserList] = useState(false);
-  const [showAIPanel, setShowAIPanel] = useState(true);
+  const [showAIPanel, setShowAIPanel] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+
+  const { project, fetchProjectDetails, isLoading } = useProjectDetails();
+
+  useEffect(() => {
+    if (projectId) {
+      fetchProjectDetails(projectId);
+    }
+  }, [projectId, fetchProjectDetails]);
 
   const handleAddUserClick = () => setShowUserList(true);
   const handleCloseUserList = () => setShowUserList(false);
@@ -65,14 +75,20 @@ export default function ChatPageMain() {
           <div
             className={`flex flex-col border-r border-border bg-white shadow-md transition-all duration-300 ease-in-out ${showAIPanel ? "w-1/3 md:w-1/3" : "w-full"}`}
           >
-            <div className="flex items-center justify-between bg-secondary p-4 text-white">
+            <div className="flex flex-col items-center justify-between gap-3 bg-secondary p-4 text-white md:flex-row md:gap-0">
               <div>
-                <h2 className="text-lg font-semibold">Project X</h2>
-                <p className="text-sm text-muted-foreground">5 Collaborators</p>
+                <h2 className="text-lg font-semibold">
+                  {isLoading ? "Loading..." : project?.name || "Project X"}
+                </h2>
+                <p className="text-nowrap text-sm text-muted-foreground">
+                  {isLoading
+                    ? "Loading..."
+                    : `${project?.users?.length || 0} Collaborators`}
+                </p>
               </div>
               <button
                 onClick={handleAddUserClick}
-                className="hover:bg-primary/90 rounded-md bg-primary px-3 py-3 text-sm text-white transition"
+                className="hover:bg-primary/90 text-nowrap rounded-md bg-primary px-3 py-3 text-sm text-white transition"
               >
                 + Add User
               </button>
@@ -87,23 +103,23 @@ export default function ChatPageMain() {
                     className={`mb-4 flex ${isCurrentUser ? "justify-end" : ""}`}
                   >
                     <div
-                      className={`mr-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${isCurrentUser ? "bg-primary" : "bg-secondary"}`}
+                      className={`mr-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+                        isCurrentUser ? "bg-primary" : "bg-secondary"
+                      }`}
                     >
                       <span className="text-sm font-bold text-white">
                         {msg.sender[0]}
                       </span>
                     </div>
                     <div
-                      className={`max-w-xs rounded-lg rounded-tl-none p-3 md:max-w-md ${
-                        isCurrentUser ? "bg-info" : "bg-muted"
-                      }`}
+                      className={`max-w-xs rounded-lg rounded-tl-none p-3 md:max-w-md ${isCurrentUser ? "bg-info" : "bg-muted"}`}
                     >
                       <p
                         className={`text-sm font-bold ${isCurrentUser ? "text-black" : ""}`}
                       >
                         {msg.sender}
                       </p>
-                      <p>{msg.message}</p>
+                      <p className="break-words">{msg.message}</p>
                       <p className="text-xs mt-1 text-muted-foreground">
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
@@ -149,7 +165,7 @@ export default function ChatPageMain() {
           {/* AI Panel  */}
           <div
             className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              showAIPanel ? "w-2/3 animate-slide-in-right" : "w-12"
+              showAIPanel ? "w-2/3 animate-slide-in-right" : "w-15 px-2 py-2"
             }`}
           >
             {/* Toggle button container */}

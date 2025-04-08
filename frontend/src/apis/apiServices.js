@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000";
 
-
 const getAuthToken = () => localStorage.getItem("wechatUserToken");
 
 const authHeaders = () => ({
@@ -34,7 +33,7 @@ export const logoutApi = async () => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/auth/logout`,
-      authHeaders()
+      authHeaders(),
     );
     return response.data;
   } catch (error) {
@@ -72,7 +71,7 @@ export const getAllUsersApi = async (projectId) => {
     const response = await axios.post(
       `${API_BASE_URL}/auth/all-users-except-current`,
       { projectId },
-      authHeaders()
+      authHeaders(),
     );
     return response.data.users;
   } catch (error) {
@@ -85,6 +84,18 @@ export const addUserToProjectAPI = async ({ projectId, newUserId }) => {
     const response = await axios.post(
       `${API_BASE_URL}/project/add-user`,
       { projectId, newUserId },
+      authHeaders(),
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const getProjectDetailsApi = async (projectId) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/project/get-project/${projectId}`,
       authHeaders(),
     );
     return response.data;
