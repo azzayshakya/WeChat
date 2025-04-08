@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useFetchAllUsers } from "../constants/useFetchAllUsers";
 import { useAddUserToProject } from "../constants/useAddUserToProject";
 import PropTypes from "prop-types";
 import { X } from "lucide-react";
+
 const UserList = ({ onClose, projectId }) => {
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const { users, isLoading } = useFetchAllUsers(projectId);
+  const { users, fetchUsers, isLoading } = useFetchAllUsers();
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (projectId) {
+      fetchUsers(projectId);
+    }
+  }, [projectId, fetchUsers]);
 
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
   const { addUserToProject, isLoading: isAdding } = useAddUserToProject();
 
   const handleUserClick = (userId) => {
@@ -32,7 +40,6 @@ const UserList = ({ onClose, projectId }) => {
 
   return (
     <div className="flex h-screen w-full flex-col rounded-r-lg border border-border bg-white text-black shadow-lg md:max-w-md">
-      
       <div className="flex items-center justify-between rounded-tr-lg bg-secondary px-5 py-4 text-white">
         <h2 className="text-lg font-semibold">All Users</h2>
         <button onClick={onClose} className="transition hover:text-primary">
@@ -74,9 +81,6 @@ const UserList = ({ onClose, projectId }) => {
                   <p className="text-muted-foreground">{user.email}</p>
                 </div>
               </div>
-              <button className="text-muted-foreground transition hover:text-red-500">
-                <X className="h-4 w-4" />
-              </button>
             </div>
           ))
         ) : (
@@ -90,7 +94,7 @@ const UserList = ({ onClose, projectId }) => {
         <button
           onClick={handleAddUser}
           disabled={!selectedUserId || isAdding}
-          className={`className="hover:bg-primary/90 w-full rounded-lg bg-primary py-3 font-medium text-white transition-all duration-200 ${
+          className={`w-full rounded-lg bg-primary py-3 font-medium text-white transition-all duration-200 ${
             !selectedUserId || isAdding
               ? "cursor-not-allowed opacity-50"
               : "hover:bg-primary/90"
@@ -102,6 +106,7 @@ const UserList = ({ onClose, projectId }) => {
     </div>
   );
 };
+
 UserList.propTypes = {
   onClose: PropTypes.func.isRequired,
   projectId: PropTypes.string.isRequired,

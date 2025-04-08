@@ -11,7 +11,7 @@ export default function useFetchProjects() {
     error,
   } = useMutation({
     mutationFn: fetchProjectsApi,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Projects fetched successfully!");
     },
     onError: (error) => {

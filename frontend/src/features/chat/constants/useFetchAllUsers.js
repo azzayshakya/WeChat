@@ -1,26 +1,31 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getAllUsersApi } from "@/apis/apiServices";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
-export const useFetchAllUsers = (projectId) => {
+export const useFetchAllUsers = () => {
+  const [userData, setUserData] = useState([]);
+
   const {
-    data = [],
-    isLoading,
+    mutate: fetchUsers,
+    isPending: isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["all-users", projectId],
-    queryFn: () => getAllUsersApi(projectId),
+  } = useMutation({
+    mutationFn: (projectId) => getAllUsersApi(projectId),
+    onSuccess: (data) => {
+      setUserData(data);
+    },
     onError: (error) => {
       toast.error(error.message || "Failed to fetch users");
     },
   });
 
   return {
-    users: data,
+    users: userData,
+    fetchUsers,
     isLoading,
     isError,
     error,
   };
 };
-
