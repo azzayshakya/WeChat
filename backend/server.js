@@ -32,8 +32,7 @@ io.use(async (socket, next) => {
   if (!token) {
     return next(new Error("No token provided"));
   }
-  
-  // Find the project and attach it to the socket
+
   socket.project = await Project.findById(projectId);
   if (!socket.project) {
     return next(new Error("Project not found"));
@@ -41,7 +40,7 @@ io.use(async (socket, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    socket.user = decoded; // Attach user info to socket
+    socket.user = decoded;
     next();
   } catch (err) {
     return next(new Error("Authentication failed"));
@@ -50,19 +49,16 @@ io.use(async (socket, next) => {
 
 io.on("connection", (socket) => {
   const projectIdString = socket.project._id.toString();
-  socket.join(projectIdString); // Join the room with the projectId
+  socket.join(projectIdString);
 
   console.log("👤 Authenticated user connected:", socket.user.email);
 
-  // Listen for 'project-message' events
   socket.on("project-message", (messageData) => {
-    // Broadcast the message to all users in the project room
     io.to(projectIdString).emit("project-message", {
-      message: messageData.Message,
+      message: messageData.message,
       sender: socket.user.email,
       timestamp: new Date().toISOString(),
     });
-    console.log("Message sent:", messageData);
   });
 
   socket.on("disconnect", () => {

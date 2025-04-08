@@ -20,11 +20,13 @@ export default function ChatPageMain() {
   const handleCloseUserList = () => setShowUserList(false);
 
   const handleSendMessage = () => {
-    sendMessage("project-message", {
-      Message: message,
-      sender: user.user.email,
-    });
-    setMessage("");
+    if (message.trim()) {
+      sendMessage("project-message", {
+        message,
+        sender: user.user.email,
+      });
+      setMessage("");
+    }
   };
 
   useEffect(() => {
@@ -71,27 +73,41 @@ export default function ChatPageMain() {
               </button>
             </div>
 
-            {/* Chat Messages */}
-            <div className="flex-1 space-y-3 overflow-auto bg-background p-4">
-              {messages.map((msg, index) => (
-                <div key={index} className="mb-4 flex">
-                  <div className="mr-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-secondary">
-                    <span className="text-sm font-bold text-white">
-                      {msg.sender[0]}
-                    </span>
+            <div className="message-box flex-1 space-y-3 overflow-auto bg-background p-4">
+              {messages.map((msg, index) => {
+                const isCurrentUser = msg.sender === user.user.email;
+                return (
+                  <div
+                    key={index}
+                    className={`mb-4 flex ${isCurrentUser ? "justify-end" : ""}`}
+                  >
+                    <div
+                      className={`mr-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${isCurrentUser ? "bg-primary" : "bg-secondary"}`}
+                    >
+                      <span className="text-sm font-bold text-white">
+                        {msg.sender[0]}
+                      </span>
+                    </div>
+                    <div
+                      className={`max-w-xs rounded-lg rounded-tl-none p-3 md:max-w-md ${
+                        isCurrentUser ? "bg-info" : "bg-muted"
+                      }`}
+                    >
+                      <p
+                        className={`text-sm font-bold ${isCurrentUser ? "text-black" : ""}`}
+                      >
+                        {msg.sender}
+                      </p>
+                      <p>{msg.message}</p>
+                      <p className="text-xs mt-1 text-muted-foreground">
+                        {new Date(msg.timestamp).toLocaleTimeString()}
+                      </p>
+                    </div>
                   </div>
-                  <div className="max-w-xs rounded-lg rounded-tl-none bg-muted p-3 md:max-w-md">
-                    <p className="text-sm font-bold">{msg.sender}</p>
-                    <p>{msg.message}</p>
-                    <p className="text-xs mt-1 text-muted-foreground">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Input Box */}
             <div className="border-t border-border p-4">
               <div className="flex items-center gap-2">
                 <input
@@ -125,7 +141,6 @@ export default function ChatPageMain() {
             </div>
           </div>
 
-          {/* AI Section */}
           <div className="w-full overflow-auto bg-background p-6 md:w-2/3">
             <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-border text-lg text-muted-foreground">
               AI Response Area (Design it later)
