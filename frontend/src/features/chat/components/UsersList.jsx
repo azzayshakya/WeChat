@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { X } from "lucide-react";
 const UserList = ({ onClose, projectId }) => {
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const { users, isLoading, isError } = useFetchAllUsers(projectId);
+  const { users, isLoading } = useFetchAllUsers(projectId);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredUsers = users.filter((user) =>
@@ -32,6 +32,7 @@ const UserList = ({ onClose, projectId }) => {
 
   return (
     <div className="flex h-screen w-full flex-col rounded-r-lg border border-border bg-white text-black shadow-lg md:max-w-md">
+      
       <div className="flex items-center justify-between rounded-tr-lg bg-secondary px-5 py-4 text-white">
         <h2 className="text-lg font-semibold">All Users</h2>
         <button onClick={onClose} className="transition hover:text-primary">

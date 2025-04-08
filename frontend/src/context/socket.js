@@ -2,8 +2,9 @@ import { io } from "socket.io-client";
 
 let socketInstance = null;
 
-export const initializeSocket = () => {
+export const initializeSocket = (projectId) => {
   const token = localStorage.getItem("wechatUserToken");
+  
 
   if (!token) {
     console.warn("⚠️ No token found in localStorage");
@@ -14,6 +15,7 @@ export const initializeSocket = () => {
     auth: { token },
     transports: ["websocket"],
     withCredentials: true,
+    query:{projectId}
   });
 
   socketInstance.on("connect", () => {
