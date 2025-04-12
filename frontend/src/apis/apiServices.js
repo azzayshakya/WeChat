@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://we-chat-backend-kappa.vercel.app";
 
 const getAuthToken = () => localStorage.getItem("wechatUserToken");
 
