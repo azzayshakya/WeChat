@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import UserList from "./components/UsersList";
 import { useParams } from "react-router-dom";
 import { UserContext } from "@/context/user.context";
-
+import { useRef } from "react";
 import {
   initializeSocket,
   sendMessage,
@@ -12,6 +12,12 @@ import {
 import { useProjectDetails } from "./constants/useGetProjectDetails";
 
 export default function ChatPageMain() {
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  
+
   const user = useContext(UserContext);
   const { projectId } = useParams();
   const [showUserList, setShowUserList] = useState(false);
@@ -59,6 +65,9 @@ export default function ChatPageMain() {
       if (socket) socket.disconnect();
     };
   }, [projectId]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div className="flex h-screen flex-col">
@@ -124,9 +133,12 @@ export default function ChatPageMain() {
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
+                    
                   </div>
+                  
                 );
               })}
+              <div ref={messagesEndRef} />
             </div>
 
             <div className="border-t border-border p-4">
