@@ -4,6 +4,7 @@ import connectDB from "./db/db.js";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import projectRoutes from "./routes/project.routes.js";
+import portfolioRoutes from './routes/portfolioRoutes.js'
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -17,7 +18,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://wechat-teal.vercel.app"],
+    origin: ["http://localhost:5173", "https://wechat-teal.vercel.app","http://localhost:5000"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -25,6 +26,8 @@ app.use(
 
 app.use("/auth", authRoutes);
 app.use("/project", projectRoutes);
+app.use("/portfolio", portfolioRoutes);
+
 app.get("/", (req, res) => {
   res.send(` WeChat backend is running`);
 });
