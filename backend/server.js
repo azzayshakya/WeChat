@@ -5,6 +5,7 @@ import app from "./app.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import Project from "./models/project.model.js";
+import { getResult } from "./controllers/ai.controller.js";
 
 dotenv.config();
 
@@ -53,12 +54,34 @@ io.on("connection", (socket) => {
 
   console.log("👤 Authenticated user connected:", socket.user.email);
 
-  socket.on("project-message", (messageData) => {
+  socket.on("project-message", async (messageData) => {
+    const aiMessage = messageData.message;
+    const aiIsPresent = aiMessage.includes("@ai");
     io.to(projectIdString).emit("project-message", {
       message: messageData.message,
       sender: socket.user.email,
       timestamp: new Date().toISOString(),
     });
+    if (aiIsPresent) {
+      const prompt = aiMessage.replace("@ai", "").trim();
+
+      try {
+        const aiResponse = await getResult(prompt);
+
+        io.to(projectIdString).emit("project-message", {
+          message: aiResponse,
+          sender: "ai",
+          timestamp: new Date().toISOString(),
+        });
+      } catch (error) {
+        io.to(projectIdString).emit("project-message", {
+          message: "AI is currently unavailable.",
+          sender: "ai",
+          timestamp: new Date().toISOString(),
+        });
+      }
+      return;
+    }
   });
 
   socket.on("disconnect", () => {
