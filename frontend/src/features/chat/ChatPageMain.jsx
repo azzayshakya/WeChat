@@ -84,7 +84,7 @@ export default function ChatPageMain() {
           <div
             className={`flex flex-col border-r border-border bg-white shadow-md transition-all duration-300 ease-in-out ${showAIPanel ? "w-1/3 md:w-1/3" : "w-full"}`}
           >
-            <div className="flex flex-col items-center justify-between gap-3 bg-secondary p-4 text-white md:flex-row md:gap-0">
+            <div className="flex flex-row items-center justify-between gap-3 bg-secondary p-4 text-white  md:gap-0">
               <div>
                 <h2 className="text-lg font-semibold">
                   {isLoading ? "Loading..." : project?.name || "Project X"}

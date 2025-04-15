@@ -8,7 +8,7 @@ export const useProjectDetails = () => {
 
   const {
     mutate: fetchProjectDetails,
-    isLoading,
+    isPending:isLoading,
     isError,
     error,
   } = useMutation({

@@ -59,7 +59,7 @@ export default function Navbar() {
             Home
           </a>
           <a
-            href="/home"
+            href="/about-us"
             className="text-white transition-colors hover:text-primary"
           >
             About

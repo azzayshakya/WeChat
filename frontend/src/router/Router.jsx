@@ -4,6 +4,7 @@ import Login from "@/screens/Login";
 import CreateAccount from "@/screens/CreateAccount";
 import UserProjectsScreen from "@/screens/UserProjectsScreen";
 import ChatPageMain from "@/features/chat/ChatPageMain";
+import AboutUs from "@/screens/AboutUs";
 // import Practicing from "@/dummy-practice/Practicing";
 // import PracticeProjectPage from "@/dummy-practice/PracticeProjectPage";
 // import { ErrorPage } from "../pages/common/ErrorPage";
@@ -23,6 +24,10 @@ const router = createBrowserRouter(
     {
       path: "/create-account",
       element: <CreateAccount />,
+    },
+    {
+      path: "/about-us",
+      element: <AboutUs />,
     },
     {
       path: "/login",
