@@ -1,6 +1,33 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const API_BASE_URL = "https://we-chat-backend-kappa.vercel.app";
+// const API_BASE_URL = "http://localhost:3000";
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+});
+
+api.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    if (
+      error.response?.status === 401 ||
+      error.response?.data?.message?.includes("Unauthorized") ||
+      error.response?.data?.message?.includes("Invalid token")
+    ) {
+      toast.error("Unauthorized user , please login first");
+      localStorage.removeItem("wechatUserToken");
+      localStorage.removeItem("wechatUser");
+
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 const getAuthToken = () => localStorage.getItem("wechatUserToken");
 
@@ -10,9 +37,7 @@ const authHeaders = () => ({
 
 export const loginApi = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, userData, {
-      withCredentials: true,
-    });
+    const response = await api.post("/auth/login", userData);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -21,11 +46,7 @@ export const loginApi = async (userData) => {
 
 export const CreateAccountApi = async (userData) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/create-account`,
-      userData,
-      { withCredentials: true },
-    );
+    const response = await api.post("/auth/create-account", userData);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -34,11 +55,7 @@ export const CreateAccountApi = async (userData) => {
 
 export const logoutApi = async () => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/auth/logout`,
-      authHeaders(),
-      { withCredentials: true },
-    );
+    const response = await api.get("/auth/logout", authHeaders());
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -47,10 +64,7 @@ export const logoutApi = async () => {
 
 export const fetchProjectsApi = async () => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/project/user-projects`,
-      authHeaders(),
-    );
+    const response = await api.get("/project/user-projects", authHeaders());
     return response.data.projects;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -59,8 +73,8 @@ export const fetchProjectsApi = async () => {
 
 export const createProjectApi = async (projectName) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/project/create`,
+    const response = await api.post(
+      "/project/create",
       { name: projectName },
       authHeaders(),
     );
@@ -72,8 +86,8 @@ export const createProjectApi = async (projectName) => {
 
 export const getAllUsersApi = async (projectId) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/all-users-except-current`,
+    const response = await api.post(
+      "/auth/all-users-except-current",
       { projectId },
       authHeaders(),
     );
@@ -85,8 +99,8 @@ export const getAllUsersApi = async (projectId) => {
 
 export const addUserToProjectAPI = async ({ projectId, newUserId }) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/project/add-user`,
+    const response = await api.post(
+      "/project/add-user",
       { projectId, newUserId },
       authHeaders(),
     );
@@ -98,8 +112,8 @@ export const addUserToProjectAPI = async ({ projectId, newUserId }) => {
 
 export const getProjectDetailsApi = async (projectId) => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/project/get-project/${projectId}`,
+    const response = await api.get(
+      `/project/get-project/${projectId}`,
       authHeaders(),
     );
     return response.data;

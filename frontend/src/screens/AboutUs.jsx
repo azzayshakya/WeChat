@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -36,18 +37,9 @@ const AboutUs = () => {
                   experience for teams and communities.
                 </p>
 
-                <p className="text-lg">
-                  Our platform intelligently understands context, provides
-                  relevant insights, and seamlessly integrates AI assistants
-                  that feel like natural participants in your conversations.
-                </p>
+               
 
-                <p className="text-lg">
-                  Whether you are coordinating a project, sharing ideas with
-                  teammates, or building a community around shared interests,
-                  WeChat enhances every interaction with intuitive, intelligent
-                  features.
-                </p>
+                
               </div>
             </div>
             <div className="md:w-1/2">
@@ -433,6 +425,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   );
 };

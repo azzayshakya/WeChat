@@ -16,8 +16,9 @@ function App() {
   return (
     <UserProvider>
       <QueryClientProvider client={queryClient}>
+        <ToastContainer position="bottom-right" />
+
         <RouterProvider router={router} />
-        <ToastContainer position="bottom-right"/>
       </QueryClientProvider>
     </UserProvider>
   );
