@@ -11,7 +11,7 @@ export const initializeSocket = (projectId) => {
     return null;
   }
 
-  socketInstance = io("https://we-chat-backend-kappa.vercel.app", {
+  socketInstance = io("http://localhost:3000", {
     auth: { token },
     transports: ["websocket"],
     withCredentials: true,
