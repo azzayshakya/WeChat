@@ -4,6 +4,7 @@ import UserList from "./components/UsersList";
 import { useParams } from "react-router-dom";
 import { UserContext } from "@/context/user.context";
 import { useRef } from "react";
+import Markdown from "markdown-to-jsx";
 import {
   initializeSocket,
   sendMessage,
@@ -16,7 +17,6 @@ export default function ChatPageMain() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  
 
   const user = useContext(UserContext);
   const { projectId } = useParams();
@@ -128,14 +128,20 @@ export default function ChatPageMain() {
                       >
                         {msg.sender}
                       </p>
-                      <p className="break-words">{msg.message}</p>
+                      <div className="break-words text-sm">
+                        {msg.sender === "ai" ? (
+                          <div className="overflow-auto">
+                            <Markdown>{msg.message}</Markdown>
+                          </div>
+                        ) : (
+                          <p>{msg.message}</p>
+                        )}
+                      </div>
                       <p className="text-xs mt-1 text-muted-foreground">
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
-                    
                   </div>
-                  
                 );
               })}
               <div ref={messagesEndRef} />
@@ -180,7 +186,6 @@ export default function ChatPageMain() {
               showAIPanel ? "w-2/3 animate-slide-in-right" : "w-15 px-2 py-2"
             }`}
           >
-            {/* Toggle button container */}
             <div className="flex justify-end bg-secondary p-2">
               <button
                 onClick={toggleAIPanel}
