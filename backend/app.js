@@ -25,6 +25,7 @@ app.use(
       "https://wechat-teal.vercel.app",
       "http://localhost:5000",
       "https://ajaykumarshakya.vercel.app",
+      "https://nxt-wave-liart.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
