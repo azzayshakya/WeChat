@@ -114,7 +114,7 @@ export default function ChatPageMain() {
                   locally.
                   <br />
                   Contact details can be found on the{" "}
-                  <a href="/about" className="text-blue-600 underline">
+                  <a href="/about-us" className="text-blue-600 underline">
                     About Us
                   </a>{" "}
                   page.
