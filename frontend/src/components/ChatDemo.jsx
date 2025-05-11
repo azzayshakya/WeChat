@@ -273,12 +273,6 @@ const ChatInterface = () => {
                 </svg>
               </button>
             </form>
-            <div className="mt-2 text-center">
-              <span className="text-xs rounded-lg bg-red-200 px-3 py-2 text-muted-foreground">
-                Try typing a message with <strong>@ai</strong> and create
-                project after login to use ai assistant
-              </span>
-            </div>
           </div>
         </div>
       </div>

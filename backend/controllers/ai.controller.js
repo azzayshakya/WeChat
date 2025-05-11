@@ -112,7 +112,7 @@ export const getResult = async (prompt) => {
     }
     const text = result.response.text();
 
-    console.log("🧠 Clean AI Text:", text);
+    console.log("Clean AI Text:", text);
 
     return result.response.text();
   } catch (error) {

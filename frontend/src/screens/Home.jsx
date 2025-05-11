@@ -7,6 +7,9 @@ const Home = () => {
   const NavigateToProjectsPage = () => {
     navigate("/projects");
   };
+  const NavigateToAboutUsPage = () => {
+    navigate("/about-us");
+  };
   return (
     <div className="min-h-screen bg-background font-nunito">
       <Navbar />
@@ -30,7 +33,8 @@ const Home = () => {
                 >
                   Get Started
                 </button>
-                <button className="rounded-lg border border-white bg-transparent px-6 py-3 text-white transition-colors hover:bg-white hover:bg-opacity-10">
+                <button className="rounded-lg border border-white bg-transparent px-6 py-3 text-white transition-colors hover:bg-white hover:bg-opacity-10" 
+                    onClick={NavigateToAboutUsPage}>
                   Learn More
                 </button>
               </div>
