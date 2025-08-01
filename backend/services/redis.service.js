@@ -9,6 +9,14 @@ const redisClient = new Radis({
 });
 
 redisClient.on("connect", () => {
+  console.log(
+    "Redis HOST",
+    process.env.RADIS_HOST,
+    "Redis port",
+    process.env.RADIS_PORT,
+    "Redis password",
+    process.env.RADIS_PASSWORD
+  );
   console.log("Redis connected");
 });
 export default redisClient;
